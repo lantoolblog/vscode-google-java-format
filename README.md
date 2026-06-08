@@ -14,7 +14,7 @@ VSCode에서 [google-java-format](https://github.com/google/google-java-format)�
 
 ## 요구사항
 
-- VSCode 1.120.0 이상
+- VSCode 1.105.1 이상
 - google-java-format 실행 파일
   - Native 방식: OS에 맞는 native image 실행 파일
   - JAR 방식: `google-java-format-<version>-all-deps.jar`
