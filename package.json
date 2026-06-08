@@ -1,6 +1,6 @@
 {
   "name": "vscode-google-java-format",
-  "displayName": "vscode-google-java-format",
+  "displayName": "Google Java Format for VSCode",
   "description": "Google Java Format for Visual Studio Code",
   "repository": {
     "url": "https://github.com/lantoolblog/vscode-google-java-format"
