@@ -74,7 +74,7 @@ Java 17 이상에서 google-java-format을 JAR 방식으로 실행할 때 JDK �
 --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
 ```
 
-이 확장은 등호 없이 입력한 값도 실행 가능한 형태로 처리하지만, `--add-exports` 옵션은 등호(`=`)를 사용하는 형식을 권장합니다. <br>
+이 확장은 `--add-exports` 옵션에 대해서 등호 없이 입력한 값도 실행 가능한 형태로 처리하지만, 등호(`=`)를 사용하는 형식을 권장합니다. <br>
 
 ## 알려진 이슈
 
