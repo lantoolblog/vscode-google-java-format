@@ -1,51 +1,75 @@
-# vscode-google-java-format README
+# Google Java Format for VSCode
 
-This is the README for your extension "vscode-google-java-format". After writing up a brief description, we recommend including the following sections.
+VSCode용 Google Java Format 확장
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
+VSCode에서 Google Java Format 포멧터를 사용할 수 있게 해줍니다.
 
 \!\[feature X\]\(images/feature-x.png\)
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
+
+
 ## Requirements
 
 If you have any requirements or dependencies, add a section describing those and how to install and configure them.
 
+* VSCode 1.12.3 버전 이상
+
+
+
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### 실행 타입 선택 옵션
 
-For example:
+* `gjfe.executionType`: 네이티브(Native) 또는 Jar 실행 방식을 선택합니다.
 
-This extension contributes the following settings:
+  > Google Java Format 1.20.0 버전부터 Native 방식을 지원합니다.
+  >
+  > Jar 방식보다 속도가 빨라서 가능한 native 방식을 추천합니다.
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+  * 선택 가능한 옵션
+    * `native`: 실행 파일 실행방식
+    * `jar`: jar파일 실행 방식
+
+
+### Native 실행 방식
+
+* `gjfe.nativeImagePath`: 네이티브 실행 파일 전체 경로
+
+### Jar 실행 방식
+
+* `gjfe.jarPath`: Jar 파일 전체 경로
+
+* `gjfe.javaHome`: Jar 파일을 실행하기 위한 JAVA_HOME 경로
+
+* `gjfe.jvmOptions`: Jar 파일을 실행할 때 추가해줄 JVM 옵션
+
+  Java 17 이상에서 발생하는 리플렉션 차단? 문제 해결을 위해 다음 옵션이 기본값으로 추가되어있습니다.
+
+  💡`--add-exports` 이후에 등호를 쓰지 않아도 정상실행 되도록 대응이 되어있지만, =를 쓰는 것을 권장합니다.
+  
+  ```
+  --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
+  --add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED
+  --add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED
+  --add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED
+  --add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED
+  --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
+  ```
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+* ...
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+* 최초 버전
+* Native, Jar 실행 방식 지원
 
 ---
 

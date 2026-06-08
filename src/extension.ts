@@ -196,6 +196,31 @@ function getNativeImagePathOrThrow(
   return nativeImagePath;
 }
 
+function normalizeJvmOptions(rawOptions: string[]): string[] {
+  const normalizedOptions: string[] = [];
+
+  for (const rawOption of rawOptions) {
+    const option = rawOption.trim();
+
+    if (!option) {
+      continue;
+    }
+
+    const splitOptionMatch = option.match(
+      /^(--add-exports|--add-opens|--add-reads|--patch-module)\s+(.+)$/,
+    );
+
+    if (splitOptionMatch) {
+      normalizedOptions.push(splitOptionMatch[1], splitOptionMatch[2].trim());
+      continue;
+    }
+
+    normalizedOptions.push(option);
+  }
+
+  return normalizedOptions;
+}
+
 function getFormatterCommand(config: vscode.WorkspaceConfiguration): {
   command: string;
   args: string[];
@@ -205,7 +230,9 @@ function getFormatterCommand(config: vscode.WorkspaceConfiguration): {
   if (executionType === "jar") {
     const jarPath = getJarPathOrThrow(config);
     const javaCommand = getJavaCommandOrThrow(config);
-    const jvmOptions = config.get<string[]>("jvmOptions") ?? [];
+    const jvmOptions = normalizeJvmOptions(
+      config.get<string[]>("jvmOptions") ?? [],
+    );
 
     return {
       command: javaCommand,
