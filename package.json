@@ -2,6 +2,10 @@
   "name": "vscode-google-java-format",
   "displayName": "vscode-google-java-format",
   "description": "Google Java Format for Visual Studio Code",
+  "repository": {
+    "url": "https://github.com/lantoolblog/vscode-google-java-format"
+  },
+  "publisher": "lantoolblog",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.120.0"
@@ -9,13 +13,64 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:java"
+  ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
+    "configuration": [
       {
-        "command": "vscode-google-java-format.helloWorld",
-        "title": "Hello World"
+        "title": "Google Java Format Extension for VSCode",
+        "properties": {
+          "gjfe.executionType": {
+            "type": "string",
+            "enum": [
+              "jar",
+              "native"
+            ],
+            "default": "jar",
+            "description": "Choose whether to run the extension using a JAR file or a native executable."
+          },
+          "gjfe.nativeImagePath": {
+            "title": "Native Image Path",
+            "type": "string",
+            "markdownDescription": "[Google Java Format's first native images released](https://github.com/google/google-java-format/releases/tag/v1.20.0)"
+          },
+          "gjfe.jarPath": {
+            "title": "Fat Jar Path",
+            "type": "string",
+            "markdownDescription": "[google-java-format-<version>-all-deps.jar](https://github.com/google/google-java-format/releases) path"
+          },
+          "gjfe.javaHome": {
+            "title": "Java Home Path",
+            "type": "string",
+            "markdownDescription": "JAVA_HOME path to run Jar"
+          },
+          "gjfe.jvmOptions": {
+            "title": "Java JVM Options as a library",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              "--add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+              "--add-exports jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+              "--add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+              "--add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+              "--add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+              "--add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
+            ],
+            "markdownDescription": "[JVM Options Link](https://github.com/google/google-java-format#as-a-library)"
+          }
+        }
+      }
+    ],
+    "languages": [
+      {
+        "id": "java",
+        "extensions": [
+          "java"
+        ]
       }
     ]
   },

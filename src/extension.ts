@@ -1,30 +1,63 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+import { execSync } from "child_process";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const CONFIG_SECTION = "gjfe";
+
 export function activate(context: vscode.ExtensionContext) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log(
-    'Congratulations, your extension "vscode-google-java-format" is now active!',
-  );
+  let disposable = vscode.languages.registerDocumentRangeFormattingEditProvider(
+    { scheme: "file", language: "java" },
+    {
+      provideDocumentRangeFormattingEdits(
+        document: vscode.TextDocument,
+        range: vscode.Range,
+        options: vscode.FormattingOptions,
+        token: vscode.CancellationToken,
+      ): Promise<vscode.TextEdit[]> {
+        if (range.isEmpty) {
+          return Promise.resolve([]);
+        }
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-  const disposable = vscode.commands.registerCommand(
-    "vscode-google-java-format.helloWorld",
-    () => {
-      // The code you place here will be executed every time your command is executed
-      // Display a message box to the user
-      vscode.window.showInformationMessage("Hello VS Code");
+        return runFormatter(document.getText(range)).then(
+          (stdout) => {
+            return Promise.resolve([vscode.TextEdit.replace(range, stdout)]);
+          },
+          (reason) => {
+            return Promise.reject(reason);
+          },
+        );
+      },
     },
   );
 
   context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
+function runFormatter(textRange: string): Promise<string> {
+  const command = (() => {
+    const executionType = `${vscode.workspace.getConfiguration(CONFIG_SECTION).get("executionType")}`;
+    if (executionType === "jar") {
+      const jarPath = `${vscode.workspace.getConfiguration(CONFIG_SECTION).get("jarPath")}`;
+      const javaHome = `${vscode.workspace.getConfiguration(CONFIG_SECTION).get("javaHome")}`;
+      const jvmOptions = `${(vscode.workspace.getConfiguration(CONFIG_SECTION).get("jvmOptions") as string[]).join(" ")}`;
+      return `${javaHome}/bin/java -jar ${jvmOptions} ${jarPath}`;
+    } else {
+      const nativeImagePath = `${vscode.workspace.getConfiguration(CONFIG_SECTION).get("nativeImagePath")}`;
+      return `${nativeImagePath}`;
+    }
+  })();
+
+  return new Promise((resolve, reject) => {
+    try {
+      let stdout: string = execSync(`${command} -`, {
+        encoding: "utf8",
+        input: textRange,
+        windowsHide: true,
+      });
+      resolve(stdout);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
 export function deactivate() {}
