@@ -8,7 +8,7 @@
   "publisher": "lantoolblog",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.120.0"
+    "vscode": "^1.105.1"
   },
   "categories": [
     "Other"
@@ -86,12 +86,13 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "@types/vscode": "^1.120.0",
+    "@types/vscode": "^1.105.1",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
     "@vscode/vsce": "^3.9.2",
     "eslint": "^9.39.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.56.1"
-  }
+  },
+  "packageManager": "pnpm@11.5.2+sha512.71c631e382066efc25625d5cf029075de07b61b37f6e27350fbd84b1bda5864c8c1967adc280776b45c30a715c0359a3be08fef42d5bb09e2b99029979692916"
 }
